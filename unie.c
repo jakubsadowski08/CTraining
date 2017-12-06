@@ -1,6 +1,6 @@
+
 #include<stdio.h>
 #include<math.h>
-
 struct alg
 {
 	float r;
@@ -14,39 +14,41 @@ struct wykladnicza
 
 enum ktora {
 	wykladnicza,
-	algebraiczna};
+	algebraiczna
+};
 
 union postacie
 {
 	struct wykladnicza WYK;
 	struct alg ALG;
 };
-struct all{
+struct all {
 	union postacie POSTACIE;
 	enum ktora POSTAC;
 };
-void wykladnicz(struct alg * complex, struct wykladnicza * wyk)
+void wykladnicz(struct wykladnicza * wyk,float r,float i )
 {
-	wyk->mod = sqrt(complex->r * complex->r + complex->i*complex->i);
-	wyk->arg = acos(complex->r/wyk->mod);
+	wyk->mod = (float)sqrt(r * r + i*i);
+	wyk->arg = (float)acos(r / wyk->mod);
 }
 int main(void)
 {
 	int wybor;
 	struct all ALL;
 	printf("podaj liczby: ");
-	scanf("%f",& ALL.POSTACIE.ALG.r);
-	scanf("%f",& ALL.POSTACIE.ALG.i);
-	printf("Napisz 0 jesli chcesz postac kanoniczna, 1 jesli wykladnicza: ");
-	scanf("%d",&wybor);
-	wykladnicz(& ALL.POSTACIE.ALG,& ALL.POSTACIE.WYK);
-	switch(wybor)
+	scanf("%f", &ALL.POSTACIE.ALG.r);
+	scanf("%f", &ALL.POSTACIE.ALG.i);
+	printf("Napisz 0 jesli chcesz postac wykladnicza , 1 jesli algebraiczna: ");
+	scanf("%d", &wybor);
+	switch (wybor)
 	{
 	case wykladnicza:
-		printf("%f\n%f",ALL.POSTACIE.WYK.mod,ALL.POSTACIE.WYK.arg);
+		wykladnicz(&ALL.POSTACIE.WYK, ALL.POSTACIE.ALG.r, ALL.POSTACIE.ALG.i);
+		printf("modul: %f\nargument: %f", ALL.POSTACIE.WYK.mod, ALL.POSTACIE.WYK.arg);
+		break;
 	case algebraiczna:
-		printf("%f\n%f",ALL.POSTACIE.ALG.i,ALL.POSTACIE.ALG.r);
+		printf("rzeczywista: %f\nurojona: %f", ALL.POSTACIE.ALG.r, ALL.POSTACIE.ALG.i);
+		break;
 	}
 	return 0;
 }
-	
