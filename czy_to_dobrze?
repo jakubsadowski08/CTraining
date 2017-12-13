@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+char ** dynamiczna(char ** lancuch,int how_many)
+{
+	int i;
+	int size = strlen(* lancuch) +1;
+	char ** dynamiczna;
+	dynamiczna=(char **)malloc(size  * sizeof(* dynamiczna));
+	for(i=0;i<how_many;i++)
+	{
+		dynamiczna[i] = (char *)malloc(size * sizeof(** dynamiczna));
+		strcpy(dynamiczna[i],lancuch[i]);
+	}
+	return dynamiczna;
+}
+int main()
+{
+	int i;
+	int size = 5;
+	int len = 64;
+	char ** tablica;
+	char ** optymalnie;
+	tablica = (char **)malloc(size * sizeof *tablica);
+	for(i=0;i<size;i++)
+		tablica[i] = (char *)malloc(len * sizeof(** tablica));
+	printf("Napisz 5 lancuchow: ");
+	for(i=0;i<size;i++)
+		scanf("%s",tablica[i]);
+	optymalnie = dynamiczna(tablica,size);
+	free(tablica);
+	i = sizeof(optymalnie);
+	free(optymalnie);
+	return 0;
+}
