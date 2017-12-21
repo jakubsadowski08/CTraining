@@ -1,4 +1,3 @@
-
 #include<stdio.h>
 #define max_n 50
 struct ks
@@ -32,24 +31,26 @@ void wypisz(struct list lista)
 }
 int main(void)
 {
+	int i;
 	struct list lista;
-	struct ks list_head;
+	struct ks list_head ={"asdf","asdfg","asdfgh",33,50,NULL};
 	lista.head = &list_head;
-	printf("Podaj imie: ");
-	fgets(lista.head->imie, max_n, stdin);
-	printf("Podaj nazwisko: ");
-	fgets(lista.head->nazwisko, max_n, stdin);
-	printf("Podaj tytul: ");
-	fgets(lista.head->tytul, max_n, stdin);
-	printf("Podaj nr: ");
-	scanf("%d", &lista.head->nr);
-	printf("Podaj cene: ");
-	scanf("%d", &lista.head->cena);
 	lista.size = 1;
-	struct ks druga ={"asdf","asdfg","asdfgh",33,50,NULL};
-	dopisanie(&lista,&druga);
+	struct ks ksiazki[50];
+	for(i=0;i<5;i++)
+	{
+		printf("Podaj imie: ");
+		scanf("%s",ksiazki[i].imie);
+		printf("Podaj nazwisko: ");
+		scanf("%s",ksiazki[i].nazwisko);
+		printf("Podaj tytul: ");
+		scanf("%s", ksiazki[i].tytul);
+		printf("Podaj nr: ");
+		scanf("%d", &ksiazki[i].nr);
+		printf("Podaj cene: ");
+		scanf("%d", &ksiazki[i].cena);
+		dopisanie(& lista, &ksiazki[i]);
+	}
 	wypisz(lista);
 	return 0;
 }
-
-
