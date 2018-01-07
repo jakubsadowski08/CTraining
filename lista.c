@@ -1,56 +1,42 @@
-#include<stdio.h>
-#define max_n 50
-struct ks
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+struct sedzia
 {
-	char imie[50];
-	char nazwisko[50];
-	char tytul[50];
-	int nr;
-	int cena;
-	struct ks * next;
+	char nazwisko[256];
+	int id;
 };
-struct list
+struct wezel
 {
-	struct ks *head;
-	int size;
+	struct sedzia * Sedzia;
+	struct sedzia * next;
 };
-void dopisanie(struct list * lista, struct ks * element)
+void dodaj(struct wezel * head,struct wezel * element)
 {
-	element->next = lista->head;
-	lista->head = element;
-	lista->size = lista->size + 1;
-}
-void wypisz(struct list lista)
-{
-	int i = 0;
-	for (i = 0; lista.size>i; i++)
+	if(element->next == NULL)
 	{
-		printf("Ksiazka nr: %d \n%s\n%s\n%s\n%d\n%d\n", i+1,lista.head->imie, lista.head->nazwisko, lista.head->tytul, lista.head->nr, lista.head->cena);
-		lista.head = lista.head->next;
+		head = element;
+		head->next = NULL;
+	}
+	else
+	{
+	element->next = head;
+	head = element;
 	}
 }
-int main(void)
+void wczytaj(char nazwiskos[256], int ids, struct wezel * head)
 {
-	int i;
-	struct list lista;
-	struct ks list_head ={"asdf","asdfg","asdfgh",33,50,NULL};
-	lista.head = &list_head;
-	lista.size = 1;
-	struct ks ksiazki[50];
-	for(i=0;i<5;i++)
-	{
-		printf("Podaj imie: ");
-		scanf("%s",ksiazki[i].imie);
-		printf("Podaj nazwisko: ");
-		scanf("%s",ksiazki[i].nazwisko);
-		printf("Podaj tytul: ");
-		scanf("%s", ksiazki[i].tytul);
-		printf("Podaj nr: ");
-		scanf("%d", &ksiazki[i].nr);
-		printf("Podaj cene: ");
-		scanf("%d", &ksiazki[i].cena);
-		dopisanie(& lista, &ksiazki[i]);
-	}
-	wypisz(lista);
+	struct wezel * element = (struct wezel *)malloc(sizeof(struct wezel));
+	strcpy(element->Sedzia->nazwisko,nazwiskos);
+	element->Sedzia->id = ids;
+	dodaj(head, element);
+}
+int main(int argc, char const *argv[])
+{
+	struct wezel lista;
+	lista.Sedzia = NULL;
+	int ns;
+	scanf("%d",&ns);
+	wczytaj("Jacek",1,&lista);
 	return 0;
 }
