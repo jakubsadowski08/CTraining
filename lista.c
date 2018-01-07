@@ -1,47 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
-struct sedzia
+#include <string.h>
+
+struct Sedzia
 {
-	char nazwisko[256];
-	int id;
+    char nazwisko[256];
+    int id;
 };
-struct wezel
+struct Wezel
 {
-	struct sedzia * Sedzia;
-	struct wezel * next;
+    struct Sedzia * dane;
+    struct Wezel * next;
 };
-void dodaj(struct wezel * head,struct wezel * element)
+void dodaj(struct Wezel * head, struct Wezel * nowy)
 {
-	if(element->next == NULL)
-	{
-		head = element;
-		head->next = NULL;
-	}
-	else
-	{
-	element->next = head;
-	head = element;
-	}
+    struct Wezel * tmp = head;
+    if (head->dane == NULL)
+    {
+        head->dane = nowy->dane;
+        head->next = NULL;
+    }
+    else
+    {
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp->next = nowy;
+        nowy->next = NULL;
+    }
 }
-void wczytaj(char nazwiskos[256], int ids, struct wezel * head)
+void przydziel(char nazwiskos[256],int ids,struct Wezel * head)
 {
-	
-	struct wezel * element = (struct wezel *)malloc(sizeof(struct wezel));
-	strcpy(element->Sedzia->nazwisko,nazwiskos);
-	element->Sedzia->id = ids;
-	if(head->next == NULL)
-	{
-		element->next = NULL;
-		head = element;
-	}
-	dodaj(head, element);
+    struct Wezel * element;
+    element = (struct Wezel *)malloc(sizeof(struct Wezel));
+    element->dane = (struct sedzia *)malloc(sizeof(struct Sedzia));
+    strcpy(element->dane->nazwisko,nazwiskos);
+    element->dane->id = ids;
+    dodaj(head, element);
 }
-int main(int argc, char const *argv[])
+void wypisz(struct Wezel head)
 {
-	struct wezel lista;
-	lista.Sedzia = NULL;
-	lista.next = NULL;
-	wczytaj("Jacek",1,&lista);
-	return 0;
+    struct Wezel * tmp = &head;
+    while (tmp != NULL)
+    {
+        printf("%s %d\n",tmp->dane->nazwisko,tmp->dane->id);
+        tmp = tmp->next;
+    }
+}
+int main() {
+    struct Wezel head;
+    head.next = NULL;
+    head.dane = NULL;
+    przydziel("Sad",1,& head);
+    przydziel("Sadowski",2,& head);
+    przydziel("Sads",3,& head);
+    wypisz(head);
+    return 0;
 }
